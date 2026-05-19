@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitness AI Tracker</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-animation">
+    <div class="particle" id="p1"></div>
+    <div class="particle" id="p2"></div>
+    <div class="particle" id="p3"></div>
+    <div class="particle" id="p4"></div>
+    <div class="particle" id="p5"></div>
+  </div>
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <i class="fas fa-dumbbell logo-icon"></i>
+        <span class="logo-text">Fitness <span class="accent">AI</span></span>
+      </div>
+      <button class="sidebar-toggle" id="sidebarToggle">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <ul class="nav-links">
+      <li class="nav-item active" data-page="dashboard">
+        <i class="fas fa-th-large"></i><span>Dashboard</span>
+      </li>
+      <li class="nav-item" data-page="calories">
+        <i class="fas fa-fire"></i><span>Calories</span>
+      </li>
+      <li class="nav-item" data-page="gps">
+        <i class="fas fa-map-marker-alt"></i><span>GPS Tracker</span>
+      </li>
+      <li class="nav-item" data-page="habits">
+        <i class="fas fa-check-circle"></i><span>Daily Habits</span>
+      </li>
+      <li class="nav-item" data-page="growth">
+        <i class="fas fa-chart-line"></i><span>Growth</span>
+      </li>
+      <li class="nav-item" data-page="diet">
+        <i class="fas fa-apple-alt"></i><span>Diet Plans</span>
+      </li>
+      <li class="nav-item" data-page="band">
+        <i class="fas fa-bluetooth"></i><span>Connect Band</span>
+      </li>
+      <li class="nav-item" data-page="ai">
+        <i class="fas fa-robot"></i><span>AI Assistant</span>
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="avatar">A</div>
+        <div class="user-info">
+          <span class="user-name">Alex Fitness</span>
+          <span class="user-level">Pro Member</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+        <span class="date-display" id="dateDisplay"></span>
+      </div>
+      <div class="topbar-right">
+        <div class="band-status" id="bandStatus">
+          <i class="fas fa-bluetooth"></i>
+          <span>Band Disconnected</span>
+          <div class="status-dot disconnected"></div>
+        </div>
+        <button class="notif-btn"><i class="fas fa-bell"></i><span class="badge">3</span></button>
+      </div>
+    </header>
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <section class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card pulse-card" data-color="orange">
+          <div class="stat-icon"><i class="fas fa-fire"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="calBurned">0</span>
+            <span class="stat-label">Calories Burned</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-ring">
+              <svg viewBox="0 0 36 36">
+                <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="ring-fill orange" id="calRing" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" data-color="blue">
+          <div class="stat-icon"><i class="fas fa-shoe-prints"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="stepCount">0</span>
+            <span class="stat-label">Steps Today</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-ring">
+              <svg viewBox="0 0 36 36">
+                <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="ring-fill blue" id="stepRing" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" data-color="green">
+          <div class="stat-icon"><i class="fas fa-heartbeat"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="heartRate">--</span>
+            <span class="stat-label">Heart Rate (BPM)</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-ring">
+              <svg viewBox="0 0 36 36">
+                <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="ring-fill green" id="hrRing" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="stat-card" data-color="purple">
+          <div class="stat-icon"><i class="fas fa-tint"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="waterIntake">0</span>
+            <span class="stat-label">Water (ml)</span>
+          </div>
+          <div class="stat-progress">
+            <div class="progress-ring">
+              <svg viewBox="0 0 36 36">
+                <path class="ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                <path class="ring-fill purple" id="waterRing" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card activity-chart-card">
+          <div class="card-header">
+            <h3>Weekly Activity</h3>
+            <div class="chart-legend">
+              <span class="legend-dot orange"></span><span>Calories</span>
+              <span class="legend-dot blue"></span><span>Steps</span>
+            </div>
+          </div>
+          <canvas id="activityChart" width="600" height="200"></canvas>
+        </div>
+        <div class="card quick-log-card">
+          <div class="card-header"><h3>Quick Log</h3></div>
+          <div class="quick-log-form">
+            <input type="text" class="input-field" id="quickActivity" placeholder="Activity (e.g. Running)"/>
+            <input type="number" class="input-field" id="quickDuration" placeholder="Duration (min)"/>
+            <input type="number" class="input-field" id="quickCalories" placeholder="Calories"/>
+            <button class="btn btn-primary" onclick="quickLog()"><i class="fas fa-plus"></i> Log Activity</button>
+          </div>
+          <div class="recent-logs" id="recentLogs"></div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <div class="card today-habits-card">
+          <div class="card-header"><h3>Today's Habits</h3></div>
+          <div class="habits-mini" id="habitsMini"></div>
+        </div>
+        <div class="card ai-tip-card">
+          <div class="card-header">
+            <h3><i class="fas fa-robot"></i> AI Daily Tip</h3>
+          </div>
+          <div class="ai-tip-content" id="aiTipContent">
+            <div class="ai-typing">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CALORIES PAGE ===== -->
+    <section class="page" id="page-calories">
+      <div class="page-header-row">
+        <h2>Calorie Tracker</h2>
+        <button class="btn btn-primary" onclick="openModal('addMealModal')"><i class="fas fa-plus"></i> Add Meal</button>
+      </div>
+      <div class="calories-overview">
+        <div class="cal-circle-wrap">
+          <div class="cal-circle">
+            <svg viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" class="cal-circle-bg"/>
+              <circle cx="60" cy="60" r="50" class="cal-circle-fill" id="calCircleFill" stroke-dasharray="0 314"/>
+            </svg>
+            <div class="cal-circle-text">
+              <span id="calConsumed">0</span>
+              <small>/ 2000 kcal</small>
+            </div>
+          </div>
+          <div class="macro-bars">
+            <div class="macro-bar">
+              <span>Protein</span>
+              <div class="bar-track"><div class="bar-fill protein" id="proteinBar" style="width:0%"></div></div>
+              <span id="proteinVal">0g</span>
+            </div>
+            <div class="macro-bar">
+              <span>Carbs</span>
+              <div class="bar-track"><div class="bar-fill carbs" id="carbsBar" style="width:0%"></div></div>
+              <span id="carbsVal">0g</span>
+            </div>
+            <div class="macro-bar">
+              <span>Fat</span>
+              <div class="bar-track"><div class="bar-fill fat" id="fatBar" style="width:0%"></div></div>
+              <span id="fatVal">0g</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="meal-list" id="mealList">
+        <div class="empty-state"><i class="fas fa-utensils"></i><p>No meals logged yet. Add your first meal!</p></div>
+      </div>
+    </section>
+
+    <!-- ===== GPS PAGE ===== -->
+    <section class="page" id="page-gps">
+      <div class="page-header-row">
+        <h2>GPS Location Tracker</h2>
+        <button class="btn btn-primary" id="startGpsBtn" onclick="startGPS()"><i class="fas fa-play"></i> Start Tracking</button>
+      </div>
+      <div class="gps-grid">
+        <div class="card map-card">
+          <div id="mapContainer" class="map-container">
+            <div class="map-placeholder" id="mapPlaceholder">
+              <i class="fas fa-map-marked-alt"></i>
+              <p>Click "Start Tracking" to enable GPS</p>
+            </div>
+            <canvas id="mapCanvas" style="display:none;width:100%;height:100%;"></canvas>
+          </div>
+        </div>
+        <div class="card gps-stats-card">
+          <h3>Session Stats</h3>
+          <div class="gps-stat-row"><i class="fas fa-route"></i><span>Distance</span><strong id="gpsDistance">0.00 km</strong></div>
+          <div class="gps-stat-row"><i class="fas fa-clock"></i><span>Duration</span><strong id="gpsDuration">00:00</strong></div>
+          <div class="gps-stat-row"><i class="fas fa-tachometer-alt"></i><span>Avg Speed</span><strong id="gpsSpeed">0.0 km/h</strong></div>
+          <div class="gps-stat-row"><i class="fas fa-map-pin"></i><span>Latitude</span><strong id="gpsLat">--</strong></div>
+          <div class="gps-stat-row"><i class="fas fa-map-pin"></i><span>Longitude</span><strong id="gpsLng">--</strong></div>
+          <div class="gps-stat-row"><i class="fas fa-fire"></i><span>Cal Burned</span><strong id="gpsCal">0</strong></div>
+          <div class="route-history">
+            <h4>Route History</h4>
+            <div id="routeHistory"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== HABITS PAGE ===== -->
+    <section class="page" id="page-habits">
+      <div class="page-header-row">
+        <h2>Daily Habits</h2>
+        <button class="btn btn-primary" onclick="openModal('addHabitModal')"><i class="fas fa-plus"></i> Add Habit</button>
+      </div>
+      <div class="habits-grid" id="habitsGrid"></div>
+      <div class="streak-section">
+        <h3>Habit Streaks</h3>
+        <div class="streak-grid" id="streakGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===== GROWTH PAGE ===== -->
+    <section class="page" id="page-growth">
+      <div class="page-header-row">
+        <h2>Daily Growth Tracker</h2>
+        <button class="btn btn-primary" onclick="openModal('addGrowthModal')"><i class="fas fa-plus"></i> Log Progress</button>
+      </div>
+      <div class="growth-charts">
+        <div class="card">
+          <div class="card-header"><h3>Weight Progress</h3></div>
+          <canvas id="weightChart" height="200"></canvas>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>Body Measurements</h3></div>
+          <canvas id="measureChart" height="200"></canvas>
+        </div>
+      </div>
+      <div class="card growth-log-card">
+        <div class="card-header"><h3>Progress Log</h3></div>
+        <div class="growth-log-table" id="growthLogTable"></div>
+      </div>
+    </section>
+
+    <!-- ===== DIET PLANS PAGE ===== -->
+    <section class="page" id="page-diet">
+      <div class="page-header-row">
+        <h2>AI Diet Plans</h2>
+        <div class="diet-filter">
+          <button class="filter-btn active" onclick="filterDiet('all', this)">All</button>
+          <button class="filter-btn" onclick="filterDiet('weight-loss', this)">Weight Loss</button>
+          <button class="filter-btn" onclick="filterDiet('muscle-gain', this)">Muscle Gain</button>
+          <button class="filter-btn" onclick="filterDiet('maintenance', this)">Maintenance</button>
+        </div>
+      </div>
+      <div class="diet-grid" id="dietGrid"></div>
+    </section>
+
+    <!-- ===== BAND PAGE ===== -->
+    <section class="page" id="page-band">
+      <div class="page-header-row"><h2>Connect Fitness Band</h2></div>
+      <div class="band-grid">
+        <div class="card band-connect-card">
+          <div class="band-visual" id="bandVisual">
+            <div class="band-ring" id="bandRing">
+              <i class="fas fa-watch"></i>
+            </div>
+            <p id="bandConnectText">Searching for devices...</p>
+          </div>
+          <button class="btn btn-primary btn-large" id="connectBandBtn" onclick="connectBand()">
+            <i class="fas fa-bluetooth"></i> Connect Band
+          </button>
+          <div class="band-devices" id="bandDevices"></div>
+        </div>
+        <div class="card band-data-card">
+          <h3>Live Band Data</h3>
+          <div class="live-data" id="liveData">
+            <div class="live-metric"><i class="fas fa-heartbeat red"></i><span>Heart Rate</span><strong id="liveHR">--</strong></div>
+            <div class="live-metric"><i class="fas fa-shoe-prints blue"></i><span>Steps</span><strong id="liveSteps">--</strong></div>
+            <div class="live-metric"><i class="fas fa-fire orange"></i><span>Calories</span><strong id="liveCal">--</strong></div>
+            <div class="live-metric"><i class="fas fa-moon purple"></i><span>Sleep</span><strong id="liveSleep">--</strong></div>
+            <div class="live-metric"><i class="fas fa-tint blue"></i><span>SpO2</span><strong id="liveSpo2">--</strong></div>
+            <div class="live-metric"><i class="fas fa-thermometer-half orange"></i><span>Skin Temp</span><strong id="liveTemp">--</strong></div>
+          </div>
+          <div class="band-chart-wrap">
+            <canvas id="bandChart" height="150"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== AI ASSISTANT PAGE ===== -->
+    <section class="page" id="page-ai">
+      <div class="page-header-row"><h2>AI Fitness Assistant</h2></div>
+      <div class="ai-grid">
+        <div class="card ai-chat-card">
+          <div class="ai-chat-messages" id="aiMessages">
+            <div class="ai-message bot">
+              <div class="bot-avatar"><i class="fas fa-robot"></i></div>
+              <div class="message-bubble">
+                Hi! I'm your AI Fitness Assistant. Ask me anything about diet plans, workouts, nutrition, or your fitness goals!
+              </div>
+            </div>
+          </div>
+          <div class="ai-chat-input">
+            <div class="ai-suggestions" id="aiSuggestions">
+              <button onclick="askAI('Suggest a diet plan for weight loss')">Diet for weight loss</button>
+              <button onclick="askAI('Best exercises for abs')">Best ab exercises</button>
+              <button onclick="askAI('How much protein do I need daily?')">Daily protein needs</button>
+              <button onclick="askAI('7-day meal plan for muscle gain')">Muscle gain meal plan</button>
+            </div>
+            <div class="chat-input-row">
+              <input type="text" id="aiInput" class="input-field" placeholder="Ask your AI fitness coach..." onkeydown="if(event.key==='Enter') sendAI()"/>
+              <button class="btn btn-primary" onclick="sendAI()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card ai-search-card">
+          <h3><i class="fas fa-search"></i> AI Search Engine</h3>
+          <div class="ai-search-bar">
+            <input type="text" id="aiSearchInput" class="input-field" placeholder="Search diet plans, exercises, nutrition..."/>
+            <button class="btn btn-primary" onclick="aiSearch()"><i class="fas fa-search"></i></button>
+          </div>
+          <div class="search-results" id="searchResults"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== MODALS ===== -->
+  <div class="modal-overlay" id="addMealModal">
+    <div class="modal">
+      <div class="modal-header"><h3>Add Meal</h3><button onclick="closeModal('addMealModal')"><i class="fas fa-times"></i></button></div>
+      <div class="modal-body">
+        <input type="text" class="input-field" id="mealName" placeholder="Meal name"/>
+        <input type="number" class="input-field" id="mealCal" placeholder="Calories (kcal)"/>
+        <input type="number" class="input-field" id="mealProtein" placeholder="Protein (g)"/>
+        <input type="number" class="input-field" id="mealCarbs" placeholder="Carbs (g)"/>
+        <input type="number" class="input-field" id="mealFat" placeholder="Fat (g)"/>
+        <select class="input-field" id="mealType">
+          <option value="breakfast">Breakfast</option>
+          <option value="lunch">Lunch</option>
+          <option value="dinner">Dinner</option>
+          <option value="snack">Snack</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('addMealModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="addMeal()">Add Meal</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="addHabitModal">
+    <div class="modal">
+      <div class="modal-header"><h3>Add Habit</h3><button onclick="closeModal('addHabitModal')"><i class="fas fa-times"></i></button></div>
+      <div class="modal-body">
+        <input type="text" class="input-field" id="habitName" placeholder="Habit name (e.g. Morning Run)"/>
+        <select class="input-field" id="habitIcon">
+          <option value="fas fa-running">🏃 Running</option>
+          <option value="fas fa-tint">💧 Hydration</option>
+          <option value="fas fa-bed">😴 Sleep</option>
+          <option value="fas fa-apple-alt">🍎 Healthy Eating</option>
+          <option value="fas fa-dumbbell">💪 Workout</option>
+          <option value="fas fa-book">📖 Reading</option>
+          <option value="fas fa-medkit">💊 Medication</option>
+        </select>
+        <input type="number" class="input-field" id="habitGoal" placeholder="Daily goal (e.g. 30 for 30 min)"/>
+        <input type="text" class="input-field" id="habitUnit" placeholder="Unit (e.g. min, glasses, pages)"/>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('addHabitModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="addHabit()">Add Habit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="addGrowthModal">
+    <div class="modal">
+      <div class="modal-header"><h3>Log Progress</h3><button onclick="closeModal('addGrowthModal')"><i class="fas fa-times"></i></button></div>
+      <div class="modal-body">
+        <input type="number" class="input-field" id="growthWeight" placeholder="Weight (kg)" step="0.1"/>
+        <input type="number" class="input-field" id="growthChest" placeholder="Chest (cm)"/>
+        <input type="number" class="input-field" id="growthWaist" placeholder="Waist (cm)"/>
+        <input type="number" class="input-field" id="growthHips" placeholder="Hips (cm)"/>
+        <input type="number" class="input-field" id="growthArms" placeholder="Arms (cm)"/>
+        <textarea class="input-field" id="growthNotes" placeholder="Notes..." rows="3"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('addGrowthModal')">Cancel</button>
+        <button class="btn btn-primary" onclick="addGrowthLog()">Save Progress</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
